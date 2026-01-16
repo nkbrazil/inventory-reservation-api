@@ -1,7 +1,7 @@
 // item type
 export type Item = {
   id: string;
-  item_name: string;
+  name: string;
   total_quantity: number;
   created_at: string;
   updated_at: string;
@@ -29,7 +29,7 @@ export type ReservationStatuses =
 // helper type for monitoring of quantities
 export type ItemStatus = {
   id: string;
-  item_name: string;
+  name: string;
   total_quantity: number;
   available_quantity: number;
   reserved_quantity: number;

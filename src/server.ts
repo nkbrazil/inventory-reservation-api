@@ -12,10 +12,9 @@ app.use(cors());
 app.use(express.json());
 
 // swagger
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // routes
-app.use("/items", itemRoutes);
+app.use("/v1/items", itemRoutes);
 
 // connection db check
 app.get("/", (req, res) => {

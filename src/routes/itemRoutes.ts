@@ -3,10 +3,9 @@ import * as itemsController from "../controllers/itemController";
 import {
   createItemSchema,
   updateItemSchema,
-  getItemSchema,
-  deleteItemSchema,
+  itemParamsSchema,
 } from "../schemas/itemSchema";
-import { validate } from "../middleware/validateReq";
+import { validateBody, validateParams } from "../middleware/validateReq";
 
 const router = Router();
 
@@ -46,7 +45,7 @@ router.get("/", itemsController.getAllItems);
  *             schema:
  *               $ref: '#/components/schemas/Item'
  */
-router.post("/", validate(createItemSchema), itemsController.createItem);
+router.post("/", validateBody(createItemSchema), itemsController.createItem);
 
 /**
  * @swagger
@@ -67,7 +66,11 @@ router.post("/", validate(createItemSchema), itemsController.createItem);
  *             schema:
  *               $ref: '#/components/schemas/Item'
  */
-router.get("/:id", validate(getItemSchema), itemsController.getItemById);
+router.get(
+  "/:id",
+  validateParams(itemParamsSchema),
+  itemsController.getItemById
+);
 
 /**
  * @swagger
@@ -90,7 +93,12 @@ router.get("/:id", validate(getItemSchema), itemsController.getItemById);
  *       200:
  *         description: Item updated successfully
  */
-router.put("/:id", validate(updateItemSchema), itemsController.updateItem);
+router.put(
+  "/:id",
+  validateParams(itemParamsSchema),
+  validateBody(updateItemSchema),
+  itemsController.updateItem
+);
 
 /**
  * @swagger
@@ -107,14 +115,48 @@ router.put("/:id", validate(updateItemSchema), itemsController.updateItem);
  *       204:
  *         description: Item deleted successfully
  */
-router.delete("/:id", validate(deleteItemSchema), itemsController.deleteItem);
+router.delete(
+  "/:id",
+  validateParams(itemParamsSchema),
+  itemsController.deleteItem
+);
 
-//debug route
-router.post("/debug", (req, res) => {
-  res.json({
-    body: req.body,
-    headers: req.headers,
-  });
-});
+/**
+ * @swagger
+ * /items/{id}/availability:
+ *   get:
+ *     summary: Check item availability
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: quantity
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Availability status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     available:
+ *                       type: boolean
+ */
+router.get(
+  "/:id/availability",
+  validateParams(itemParamsSchema),
+  itemsController.checkItemAvailability
+);
 
 export default router;

@@ -1,33 +1,41 @@
 import { z } from "zod";
 
+// Body validation schemas
 export const createItemSchema = z.object({
-  item_name: z.string().min(1),
-  total_quantity: z.coerce.number().int().nonnegative(),
+  name: z.string().min(1, "Item name is required"),
+  total_quantity: z.coerce
+    .number()
+    .int()
+    .nonnegative("Quantity must be non-negative"),
 });
 
 export const updateItemSchema = z
   .object({
-    item_name: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
     total_quantity: z.coerce.number().int().nonnegative().optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided to update",
-  })
-  .strict();
+  });
 
-// refine for atleast one field to be present in update
+export const deleteItemSchema = z.object({});
 
-export const getItemSchema = z.object({
+export const itemParamsSchema = z.object({
   id: z.string(),
 });
 
-export const deleteItemSchema = z.object({
-  params: z.object({
-    id: z.string(),
-  }),
+export const updateItemRequestSchema = z.object({
+  params: itemParamsSchema,
+  body: updateItemSchema,
 });
 
+export const deleteItemRequestSchema = z.object({
+  params: itemParamsSchema,
+});
+
+// Type exports
 export type CreateItemInput = z.infer<typeof createItemSchema>;
 export type UpdateItemInput = z.infer<typeof updateItemSchema>;
-export type GetItemInput = z.infer<typeof getItemSchema>;
-export type DeleteItemInput = z.infer<typeof deleteItemSchema>;
+export type ItemParams = z.infer<typeof itemParamsSchema>;
+export type UpdateItemRequest = z.infer<typeof updateItemRequestSchema>;
+export type DeleteItemRequest = z.infer<typeof deleteItemRequestSchema>;
