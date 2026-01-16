@@ -2,7 +2,7 @@
 export type Item = {
   id: string;
   item_name: string;
-  total_quantiy: string;
+  total_quantity: number;
   created_at: string;
   updated_at: string;
 };
@@ -34,4 +34,16 @@ export type ItemStatus = {
   available_quantity: number;
   reserved_quantity: number;
   confirmed_quantity: number;
+};
+
+// api response
+export type ApiResponse<T> = {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+};
+
+export type GetItemParams = {
+  id: string;
 };
