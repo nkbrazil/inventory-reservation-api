@@ -14,7 +14,7 @@ const options = {
         description: "Development server",
       },
       {
-        url: "https://inventory-reservation-api-nkb-leadly.vercel.app/v1",
+        url: "https://inventory-reservation-api-nkb-leadly.vercel.app",
         description: "Production server",
       },
     ],
