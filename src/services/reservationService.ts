@@ -3,7 +3,6 @@ import { CreateReservationInput } from "../schemas/reservationSchema";
 import { Reservation } from "../types";
 
 export class ReservationService {
-  // Expiry time in minutes
   private readonly EXPIRY_MINUTES = 15;
 
   async createReservation(
@@ -28,7 +27,7 @@ export class ReservationService {
         .from("reservations")
         .select("quantity")
         .eq("item_id", item_id)
-        .in("status", ["PENDING", "CONFIRMED"]);
+        .in("status", ["PENDING"]);
 
     if (reservationsError) {
       throw new Error(
@@ -96,19 +95,19 @@ export class ReservationService {
       throw new Error("Reservation not found");
     }
 
-    // Idempotency: if already confirmed, return as-is
+    // as - is
     if (reservation.status === "CONFIRMED") {
       return reservation;
     }
 
-    // Cannot confirm if expired
+    // no confirmation if expired
     if (new Date(reservation.expires_at) < new Date()) {
       const error: any = new Error("Cannot confirm expired reservation");
       error.statusCode = 400;
       throw error;
     }
 
-    // Cannot confirm if not pending
+    // cannot confirm if not pending
     if (reservation.status !== "PENDING") {
       const error: any = new Error(
         `Cannot confirm reservation with status: ${reservation.status}`
