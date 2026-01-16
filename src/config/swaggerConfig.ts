@@ -13,6 +13,10 @@ const options = {
         url: "http://localhost:3000/v1",
         description: "Development server",
       },
+      {
+        url: "https://inventory-reservation-api-nkb-leadly.vercel.app/v1",
+        description: "Production server",
+      },
     ],
     components: {
       schemas: {
