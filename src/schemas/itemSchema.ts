@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Body validation schemas
+//  validation schemas
 export const createItemSchema = z.object({
   name: z.string().min(1, "Item name is required"),
   total_quantity: z.coerce

@@ -8,13 +8,19 @@ import {
 import { validateBody, validateParams } from "../middleware/validateReq";
 
 const router = Router();
+/**
+ * @swagger
+ * tags:
+ *   name: Items
+ *   description: CRUD and check availability endpoints for items
+ */
 
 /**
  * @swagger
  * /items:
  *   get:
  *     summary: Get all items
- *
+ *     tags: [Items]
  *     responses:
  *       200:
  *         description: List of all items
@@ -32,6 +38,7 @@ router.get("/", itemsController.getAllItems);
  * /items:
  *   post:
  *     summary: Create a new item
+ *     tags: [Items]
  *     requestBody:
  *       required: true
  *       content:
@@ -53,6 +60,7 @@ router.post("/", validateBody(createItemSchema), itemsController.createItem);
 //  * /items/{id}:
 //  *   get:
 //  *     summary: Get item by ID
+//  *     tags: [Items]
 //  *     parameters:
 //  *       - in: path
 //  *         name: id
@@ -78,6 +86,7 @@ router.post("/", validateBody(createItemSchema), itemsController.createItem);
  * /items/{id}:
  *   put:
  *     summary: Update an item
+ *     tags: [Items]
  *     parameters:
  *       - in: path
  *         name: id
@@ -106,6 +115,7 @@ router.put(
  * /items/{id}:
  *   delete:
  *     summary: Delete an item
+ *     tags: [Items]
  *     parameters:
  *       - in: path
  *         name: id
@@ -127,6 +137,7 @@ router.delete(
  * /items/{id}/availability:
  *   get:
  *     summary: Check item availability
+ *     tags: [Items]
  *     parameters:
  *       - in: path
  *         name: id
@@ -165,6 +176,7 @@ router.get(
  * /items/{id}:
  *   get:
  *     summary: Get item status with detailed quantity breakdown
+ *     tags: [Items]
  *     parameters:
  *       - in: path
  *         name: id

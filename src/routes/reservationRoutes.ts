@@ -7,12 +7,18 @@ import {
 import { validateBody, validateParams } from "../middleware/validateReq";
 
 const router = Router();
-
+/**
+ * @swagger
+ * tags:
+ *   name: Reservations
+ *   description: Endpoints for managing reservations
+ */
 /**
  * @swagger
  * /reservations:
  *   post:
  *     summary: Create a temporary reservation
+ *     tags: [Reservations]
  *     requestBody:
  *       required: true
  *       content:
@@ -71,6 +77,7 @@ router.post(
  * /reservations/{id}:
  *   get:
  *     summary: Get reservation by ID
+ *     tags: [Reservations]
  *     parameters:
  *       - in: path
  *         name: id
@@ -95,6 +102,7 @@ router.get(
  * /reservations/{id}/confirm:
  *   post:
  *     summary: Confirm a reservation (permanently deducts quantity)
+ *     tags: [Reservations]
  *     parameters:
  *       - in: path
  *         name: id
@@ -133,6 +141,7 @@ router.post(
  * /reservations/{id}/cancel:
  *   post:
  *     summary: Cancel a reservation (releases quantity)
+ *     tags: [Reservations]
  *     parameters:
  *       - in: path
  *         name: id
@@ -171,7 +180,7 @@ router.post(
  * /reservations:
  *   get:
  *     summary: Get all reservation
- *
+ *     tags: [Reservations]
  *     responses:
  *       200:
  *         description: List of all reservations
