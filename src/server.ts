@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import itemRoutes from "./routes/itemRoutes";
 import reservationRoutes from "./routes/reservationRoutes";
 import { swaggerSpec } from "./config/swaggerConfig";
+import maintenanceRoutes from "./routes/maintenanceRoutes";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Swagger JSON
+// swagger json
 app.get("/openapi.json", (req, res) => {
   res.json(swaggerSpec);
 });
@@ -50,6 +51,7 @@ app.get("/docs", (_req, res) => {
 // API routes
 app.use("/v1/items", itemRoutes);
 app.use("/v1/reservations", reservationRoutes);
+app.use("/v1/maintenance", maintenanceRoutes);
 
 app.get("/", (_req, res) => {
   res.json({ message: "Inventory API is running" });
