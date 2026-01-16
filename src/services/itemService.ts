@@ -82,11 +82,14 @@ export class ItemsService {
 
     const reserved_quantity =
       reservations?.reduce((sum, r) => sum + Number(r.quantity), 0) || 0;
+    console.log("reserved_quantity", reserved_quantity);
 
     const confirmed_quantity =
       reservations
         ?.filter((r) => r.status === "CONFIRMED")
         .reduce((sum, r) => sum + Number(r.quantity), 0) || 0;
+    console.log("item.total_quantity", item.total_quantity);
+    console.log("confirmed_quantity", confirmed_quantity);
 
     const available_quantity = Number(item.total_quantity) - reserved_quantity;
 

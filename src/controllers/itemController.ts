@@ -16,29 +16,6 @@ export const getAllItems = async (
   }
 };
 
-// get item status
-export const getItemStatus = async (
-  req: Request<GetItemParams>,
-  res: Response,
-  next: NextFunction
-) => {
-  const itemsService = new ItemsService();
-
-  try {
-    const itemStatus = await itemsService.getItemStatus(req.params.id);
-
-    if (!itemStatus) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Item not found" });
-    }
-
-    res.status(200).json({ success: true, data: itemStatus });
-  } catch (error) {
-    next(error);
-  }
-};
-
 //get item by id
 
 export const getItemById = async (
@@ -137,6 +114,28 @@ export const checkItemAvailability = async (
       Number(quantity)
     );
     res.status(200).json({ success: true, data: { available: isAvailable } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getItemStatus = async (
+  req: Request<GetItemParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const itemsService = new ItemsService();
+
+  try {
+    const itemStatus = await itemsService.getItemStatus(req.params.id);
+
+    if (!itemStatus) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+
+    res.status(200).json({ success: true, data: itemStatus });
   } catch (error) {
     next(error);
   }

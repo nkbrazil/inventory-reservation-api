@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "http://localhost:3000/v1",
         description: "Development server",
       },
     ],
@@ -18,13 +18,13 @@ const options = {
       schemas: {
         Item: {
           type: "object",
-          required: ["item_name", "total_quantity"],
+          required: ["name", "total_quantity"],
           properties: {
             id: {
               type: "string",
               format: "uuid",
             },
-            item_name: {
+            name: {
               type: "string",
             },
             total_quantity: {

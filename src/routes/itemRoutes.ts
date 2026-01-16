@@ -14,6 +14,7 @@ const router = Router();
  * /items:
  *   get:
  *     summary: Get all items
+ *
  *     responses:
  *       200:
  *         description: List of all items
@@ -47,30 +48,30 @@ router.get("/", itemsController.getAllItems);
  */
 router.post("/", validateBody(createItemSchema), itemsController.createItem);
 
-/**
- * @swagger
- * /items/{id}:
- *   get:
- *     summary: Get item by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Item details
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Item'
- */
-router.get(
-  "/:id",
-  validateParams(itemParamsSchema),
-  itemsController.getItemById
-);
+// /**
+//  * @swagger
+//  * /items/{id}:
+//  *   get:
+//  *     summary: Get item by ID
+//  *     parameters:
+//  *       - in: path
+//  *         name: id
+//  *         required: true
+//  *         schema:
+//  *           type: string
+//  *     responses:
+//  *       200:
+//  *         description: Item details
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               $ref: '#/components/schemas/Item'
+//  */
+// router.get(
+//   "/:id",
+//   validateParams(itemParamsSchema),
+//   itemsController.getItemById
+// );
 
 /**
  * @swagger
@@ -157,6 +158,49 @@ router.get(
   "/:id/availability",
   validateParams(itemParamsSchema),
   itemsController.checkItemAvailability
+);
+
+/**
+ * @swagger
+ * /items/{id}:
+ *   get:
+ *     summary: Get item status with detailed quantity breakdown
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Item status with quantity details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     total_quantity:
+ *                       type: number
+ *                     available_quantity:
+ *                       type: number
+ *                     reserved_quantity:
+ *                       type: number
+ *                     confirmed_quantity:
+ *                       type: number
+ */
+router.get(
+  "/:id",
+  validateParams(itemParamsSchema),
+  itemsController.getItemStatus
 );
 
 export default router;
