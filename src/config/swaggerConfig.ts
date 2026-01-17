@@ -1,3 +1,4 @@
+import path from "path/win32";
 import swaggerJsdoc from "swagger-jsdoc";
 
 const options = {
@@ -83,7 +84,7 @@ const options = {
       },
     },
   },
-  apis: ["./src/routes/*.ts"],
+  apis: ["./src/routes/*.ts", path.join(__dirname, "../routes/*.ts")],
 };
 
 export const swaggerSpec = swaggerJsdoc(options);
