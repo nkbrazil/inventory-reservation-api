@@ -116,7 +116,7 @@ The API will be available at: `http://localhost:3000`
 
 ---
 
-## 📦 Environment Variables
+## Environment Variables
 
 Required environment variables (see [`.env.example`](.env.example)):
 
@@ -128,7 +128,7 @@ Required environment variables (see [`.env.example`](.env.example)):
 
 ---
 
-## 🌐 Deployment to Vercel
+## Deployment to Vercel
 
 ### Prerequisites
 
@@ -185,7 +185,7 @@ curl https://example-app.vercel.app/
 
 ---
 
-## 🧪 Testing Concurrency Scenarios
+## Testing Concurrency Scenarios
 
 ### Scenario 1: Race Condition - Multiple Reservations for Same Item
 
@@ -285,7 +285,7 @@ echo "All requests completed"
 
 ---
 
-## 🎥 Demo Video
+## Demo Video
 
 **Video Link**: -----
 
@@ -299,7 +299,7 @@ The demo video showcases:
 
 ---
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Items
 
@@ -377,7 +377,7 @@ The demo video showcases:
 
 ---
 
-## 📖 Additional Resources
+## Additional Resources
 
 - [API Documentation (Swagger)](http://localhost:3000/docs) - Interactive API testing
 - [Testing Guide](src/docs/Test-Scenario.MD) - Comprehensive test scenarios
@@ -385,7 +385,7 @@ The demo video showcases:
 
 ---
 
-## 🛠️ Development Commands
+## Development Commands
 
 ```bash
 # Install dependencies
