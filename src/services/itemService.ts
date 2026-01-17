@@ -93,6 +93,10 @@ export class ItemsService {
 
     const available_quantity = Number(item.total_quantity) - reserved_quantity;
 
+    if (available_quantity < 0) {
+      throw new Error("Data inconsistency: reserved quantity exceeds total");
+    }
+
     return {
       id: item.id,
       name: item.name,

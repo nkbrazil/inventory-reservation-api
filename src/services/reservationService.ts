@@ -253,3 +253,14 @@ export class ReservationService {
 }
 
 export const reservationService = new ReservationService();
+
+/*  // create reservation
+check if item exists -> calculate available quantity -> if available, create reservation with PENDING status and expiry time -> only create if sufficient quantity available -> 
+set a 15 minute expiry and return 409 conflict if insufficient quantity
+
+
+// confirm reservation -> idempotent operation (can be called multiple times safely) -> if confirmed return the existing reservation withou deducting quantity again -> validates reservation
+-> only pending reservations -> deduc fromt total quantity
+
+// cancel reservation -> cannot cancel confirmed reservations -> only pending reservations can be cancelled -> set status to CANCELLED
+*/

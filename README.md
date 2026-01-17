@@ -15,24 +15,20 @@ This system manages inventory items and time-limited reservations with the follo
 ### Key Assumptions
 
 1. **Reservation Flow**:
-
    - `PENDING` → reserves quantity temporarily (15 min)
    - `CONFIRMED` → permanently deducts from `total_quantity`
    - `CANCELLED` or `EXPIRED` → releases the hold
 
 2. **Quantity Calculation**:
-
    - Only `PENDING` reservations count as "reserved"
    - `CONFIRMED` reservations are already deducted from `total_quantity`
    - `available_quantity = total_quantity - sum(PENDING.quantity)`
 
 3. **Idempotency**:
-
    - Confirming an already-confirmed reservation does not deduct twice
    - Cancelling an already-cancelled reservation does not push thru
 
 4. **Concurrency**:
-
    - Database constraints and indexes prevent race conditions
    - No application-level locking needed for this use case
 
@@ -287,7 +283,7 @@ echo "All requests completed"
 
 ## Demo Video
 
-**Video Link**: -----
+**Video Link**: https://drive.google.com/file/d/1xVFcTPCBkXIwCcigqd_NPRk0kUfBVRZ8/view?usp=drive_link
 
 The demo video showcases:
 
