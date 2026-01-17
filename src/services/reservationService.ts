@@ -10,7 +10,7 @@ export class ReservationService {
   ): Promise<Reservation> {
     const { item_id, customer_id, quantity } = reservationData;
 
-    // Check if item exists
+    // check if item exists
     const { data: item, error: itemError } = await supabase
       .from("items")
       .select("total_quantity")
@@ -21,7 +21,7 @@ export class ReservationService {
       throw new Error("Item not found");
     }
 
-    // Calculate available quantity
+    // calculate currently reserved quantity
     const { data: activeReservations, error: reservationsError } =
       await supabase
         .from("reservations")
@@ -39,14 +39,14 @@ export class ReservationService {
       activeReservations?.reduce((sum, r) => sum + Number(r.quantity), 0) || 0;
     const availableQuantity = Number(item.total_quantity) - reservedQuantity;
 
-    // Check if sufficient quantity is available
+    //check if quantity is available
     if (availableQuantity < quantity) {
       const error: any = new Error("Insufficient available quantity");
       error.statusCode = 409;
       throw error;
     }
 
-    // Create reservation with expiry time
+    //create reservation with expiry time
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + this.EXPIRY_MINUTES);
 
@@ -70,6 +70,7 @@ export class ReservationService {
     return data;
   }
 
+  // get all reservations
   async getAllReservations(): Promise<Reservation[]> {
     const { data, error } = await supabase
       .from("reservations")
@@ -83,8 +84,9 @@ export class ReservationService {
     return data;
   }
 
+  // confirm reservation
   async confirmReservation(id: string): Promise<Reservation> {
-    // Get reservation
+    // get reservation
     const { data: reservation, error: fetchError } = await supabase
       .from("reservations")
       .select("*")
@@ -116,7 +118,7 @@ export class ReservationService {
       throw error;
     }
 
-    // Get current item to deduct from total_quantity
+    // get current item to be deducted
     const { data: item, error: itemError } = await supabase
       .from("items")
       .select("total_quantity")
@@ -127,7 +129,7 @@ export class ReservationService {
       throw new Error("Item not found");
     }
 
-    // Deduct quantity permanently
+    // then we deduct the quantity
     const newTotalQuantity =
       Number(item.total_quantity) - Number(reservation.quantity);
 
@@ -137,7 +139,7 @@ export class ReservationService {
       throw error;
     }
 
-    // Update item quantity and reservation status in a transaction-like manner
+    // we update the item quantity now with the new total quantity
     const { error: updateItemError } = await supabase
       .from("items")
       .update({ total_quantity: newTotalQuantity })
@@ -162,7 +164,7 @@ export class ReservationService {
   }
 
   async cancelReservation(id: string): Promise<Reservation> {
-    // Get reservation
+    //get reservation
     const { data: reservation, error: fetchError } = await supabase
       .from("reservations")
       .select("*")
@@ -173,19 +175,19 @@ export class ReservationService {
       throw new Error("Reservation not found");
     }
 
-    // Idempotency: if already cancelled, return as-is
+    // as is
     if (reservation.status === "CANCELLED") {
       return reservation;
     }
 
-    // Cannot cancel if already confirmed (quantity already deducted)
+    // cannot cancel if already confirmed (quantity already deducted)
     if (reservation.status === "CONFIRMED") {
       const error: any = new Error("Cannot cancel confirmed reservation");
       error.statusCode = 400;
       throw error;
     }
 
-    // Update status to CANCELLED
+    // update status to CANCELLED
     const { data: updatedReservation, error: updateError } = await supabase
       .from("reservations")
       .update({ status: "CANCELLED" })
@@ -203,7 +205,7 @@ export class ReservationService {
   async expireReservations(): Promise<{ expired_count: number }> {
     const now = new Date().toISOString();
 
-    // Find all PENDING reservations that have expired
+    // find all expired PENDING reservations
     const { data: expiredReservations, error: fetchError } = await supabase
       .from("reservations")
       .select("id")
@@ -220,7 +222,7 @@ export class ReservationService {
       return { expired_count: 0 };
     }
 
-    // Mark them as EXPIRED
+    // mark them as EXPIRED
     const ids = expiredReservations.map((r) => r.id);
     const { error: updateError } = await supabase
       .from("reservations")
