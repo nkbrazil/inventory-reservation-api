@@ -1,4 +1,4 @@
-import path from "path/win32";
+import path from "path";
 import swaggerJsdoc from "swagger-jsdoc";
 
 const options = {
