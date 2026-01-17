@@ -15,7 +15,7 @@ const options = {
         description: "Development server",
       },
       {
-        url: "https://inventory-reservation-api-nkb-leadly.vercel.app",
+        url: "https://inventory-reservation-api-nkb-leadly.vercel.app/v1",
         description: "Production server",
       },
     ],
@@ -84,7 +84,7 @@ const options = {
       },
     },
   },
-  apis: ["./src/routes/*.ts", path.join(__dirname, "../routes/*.ts")],
+  apis: [path.join(__dirname, "../routes/*.{ts,js}")],
 };
 
 export const swaggerSpec = swaggerJsdoc(options);
